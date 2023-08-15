@@ -3,7 +3,7 @@
 FROM python:buster
 
 RUN \
-  echo "deb https://deb.nodesource.com/node_12.x buster main" > /etc/apt/sources.list.d/nodesource.list && \
+  echo "deb https://deb.nodesource.com/node_16.x buster main" > /etc/apt/sources.list.d/nodesource.list && \
   wget -qO- https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add - && \
   echo "deb https://dl.yarnpkg.com/debian/ stable main" > /etc/apt/sources.list.d/yarn.list && \
   wget -qO- https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
@@ -25,5 +25,5 @@ RUN apt update -yqq
 RUN apt-get install -yqq docker-ce docker-ce-cli containerd.io
 
 # Install docker-compose
-RUN curl -L "https://github.com/docker/compose/releases/download/1.26.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+RUN curl -SL https://github.com/docker/compose/releases/download/v2.20.3/docker-compose-linux-x86_64 -o /usr/local/bin/docker-compose
 RUN chmod +x /usr/local/bin/docker-compose
