@@ -1,4 +1,6 @@
 name: Docker Image CI
+env:
+  GH_USERNAME: "jayolin"
 
 on:
   push:
@@ -11,5 +13,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Build the Docker image 
-      run: docker build . -f Dockerfile -t my-image-name:$(date +%s)
+    
+    - name: 'Login to GitHub Container Registry'
+      uses: docker/login-action@v1
+      with:
+        registry: ghcr.io
+        username: ${{github.actor}}
+        password: ${{secrets.GITHUB_TOKEN}}
+
+    - name: 'Build Inventory Image'
+      run: |
+        docker build . --tag ghcr.io/$(echo $GH_USERNAME)/act_base:latest
+        docker push ghcr.io/$(echo $GH_USERNAME)/act_base:latest
